@@ -9,6 +9,7 @@ export default function Main() {
   const [city, setCity] = useState("");
   const [isInput, setIsInput] = useState(false);
   const [tempCity, setTempCity] = useState("");
+  const [msg, setMsg] = useState("");
 
   const sendRequest = () => {
     const URL = `https://api.openweathermap.org/data/2.5/find?q=${city}&units=metric&type=accurate&appid=${KEY}`;
@@ -54,9 +55,10 @@ export default function Main() {
           arrow: winDeg,
         };
 
+        setMsg("");
         setData([...data, tempData]);
       })
-      .catch((reason) => console.log(reason));
+      .catch((reason) => setMsg("City Not Found!"));
   };
 
   useEffect(() => {
@@ -123,10 +125,12 @@ export default function Main() {
           type="text"
           placeholder="Enter city . . ."
           className="placeholder"
+          mesg
         />
       ) : (
         <div></div>
       )}
+      {msg === "" ? <div></div> : <div className="msg-box">{msg}</div>}
       <div className="container">
         {data.map((value, index) => {
           return (
